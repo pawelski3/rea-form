@@ -129,7 +129,7 @@ export class Text3dComponent implements OnInit {
         // let cubeHight=(this.curr1Mid[i]-0.5*this.curr1Mid[i];
         this.cubeHights[i]=cubeHight
         var cubeGeometry = new THREE.BoxGeometry(0.4, cubeHight, 1);
-        let cube = new THREE.Mesh(cubeGeometry, material);
+        let cube = new THREE.Mesh(cubeGeometry, materialMin);
         if (this.curr1Mid[i]==maxValue)
         {cube = new THREE.Mesh(cubeGeometry, materialMax);}
         if (this.curr1Mid[i]==minValue)
