@@ -1,0 +1,23 @@
+form{
+    width:400px;
+    border:1px solid #ccc;
+    border-radius:5px;
+    padding:20px;
+    background-color:blue;
+}
+
+:host{
+    background-color:aquamarine;
+}
+
+a {
+    margin: 10px;
+    color:blue;
+    outline: 2px solid green;
+}
+
+.active{
+    color:red;
+    font-style: italic;
+    
+}

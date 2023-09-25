@@ -1,0 +1,9 @@
+<p>parent works!</p>
+<div class="container">
+    <h3>To jest komponent nadrzędny</h3>
+    <p>Stan licznika wynosi {{msg}}</p>
+    <app-child [myInput]="{message:message, no:no}"
+    (freezedNumber)="mgsDisplay($event)"
+    
+    ></app-child>
+</div>

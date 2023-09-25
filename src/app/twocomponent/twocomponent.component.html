@@ -1,0 +1,57 @@
+<p>twocomponent works fgfg!</p>
+
+<form [formGroup]="myFormModel" (ngSubmit)="onSubmit()">
+    <div>
+        <label><span>podaj imie</span>
+            <input type="text" formControlName="yourName"></label>
+        <br>
+        <div *ngIf="myFormModel.controls.yourName?.invalid">BLLL</div>
+        <label><span>podaj email</span>
+            {{myFormModel.controls.yourName.errors|json}}
+
+            <input type="email" formControlName="email"></label>
+
+        <div *ngIf="myFormModel.controls.email?.invalid &&
+        myFormModel.controls.email.touched
+        ">BLLL
+            <div *ngIf="myFormModel.controls.email.errors['required']">Email error</div>
+
+
+        </div>
+
+
+
+        {{myFormModel.controls.yourName.errors|json}}
+
+        <br>
+        <label><span>opis</span>
+            <textarea type="text" formControlName="description">
+                </textarea>
+                <div *ngIf="myFormModel.get('description').hasError('minlength')">za krotki1</div>
+            <div *ngIf="myFormModel.controls.description.invalid && 
+                myFormModel.controls.description.touched">za krotki2</div>
+        </label><br>
+
+        <!-- <label formGroupName="availability">
+           <label><span>podaj cos</span>
+        <input type="text" placeholder="cos"></label> -->
+
+
+        <!-- <input formControlName="start" placeholder="Start">
+            <input formControlName="end" placeholder="koniec">
+        </label>  -->
+        <!-- <div formArrayName="emails">
+             <span *ngFor="let email of myFormModel.get('emails')['controls']; let i = index "> 
+                <span *ngFor = "let email of myFormModel.get('emails')['controls']; let i = index">     
+                <label>Email {{i+1}}</label>
+                <input [formControlName]="i">
+            </span>
+        </div> -->
+        <!-- <button type="button" (click)="addEmail()">Dodaj maila</button> -->
+        <button type="button" (click)="myFormModel.reset()">Reset </button>
+        <button type="button" (click)="reload()">Zasilenie</button>
+        <button type="submit" [disabled]="!myFormModel.valid">Press
+
+        </button>
+    </div>
+</form>

@@ -1,0 +1,17 @@
+/* div{
+    background-color: blueviolet;
+    border-color: aquamarine;
+    outline:2px dashed yellowgreen;
+    color:antiquewhite;
+    
+} */
+
+
+.invalid{
+    border:2px solid red;
+}
+
+.error{
+    color:red;
+    font-size: 20 px;
+}

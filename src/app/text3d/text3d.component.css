@@ -1,0 +1,15 @@
+body{
+    height: 100px;
+}
+
+
+
+
+#displayText{
+    background-color: burlywood;
+    background-image: url("../../assets/dust_rt.jpg");
+    background-position: center;
+    background-size: cover;
+    height: 700px;
+    /* filter: blur(5px); */
+}
