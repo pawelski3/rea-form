@@ -19,9 +19,9 @@ export class Text3dComponent implements OnInit {
   curr1Days = [];
   curr1Mid = [];
   val1 = [];
-  average=0
-  DisplayLength=0
-  cubeHights=[]
+  average = 0
+  DisplayLength = 0
+  cubeHights = []
 
   constructor(private ServiceCurrService: ServiceCurrService) { }
 
@@ -63,7 +63,7 @@ export class Text3dComponent implements OnInit {
     let display = (<HTMLInputElement>document.getElementById("displayText"))
     display.appendChild(renderer.domElement);
     let rnd = Math.random()
-    let hights = [1.3, 1.5, 1.34, 1.56, 1.74, 1.1, 1.9, 1.65, 1.9, 1.14, 1.3, 1.65, 1.5, 1.1]
+
     console.log("raddom ", rnd)
 
     const texture = new THREE.TextureLoader().load("../assets/Space.jpg")
@@ -109,74 +109,110 @@ export class Text3dComponent implements OnInit {
     });
 
 
-    this.ServiceCurrService.getCurrencyOne1("EUR").subscribe(post => {
-      let curr = post;
-      this.curr1Code = curr.code;
-      this.curr1Name = curr.currency;
-      //console.log(curr.rates[3].effectiveDate);//this.curr1.rates[1].mid
-      for (let i = 0; i < curr.rates.length; i++) {
-        this.curr1Days[i] = curr.rates[i].effectiveDate;
-        this.curr1Mid[i] = curr.rates[i].mid;
-      }
-      console.log("chf", this.curr1Mid)
-      let maxValue=Math.max(...this.curr1Mid)
-      let minValue=Math.min(...this.curr1Mid)
-      console.log("max value ",maxValue);
-      console.log("min value ",minValue);
-      for (let i = 0; i < this.curr1Mid.length; i++) {
-        // console.log("pętla robi cuby ", this.curr1Mid[i],this.curr1Days[i])
-        let cubeHight=(this.curr1Mid[i]-3.5)*5;
-        // let cubeHight=(this.curr1Mid[i]-0.5*this.curr1Mid[i];
-        this.cubeHights[i]=cubeHight
-        var cubeGeometry = new THREE.BoxGeometry(0.4, cubeHight, 1);
-        let cube = new THREE.Mesh(cubeGeometry, materialMin);
-        if (this.curr1Mid[i]==maxValue)
-        {cube = new THREE.Mesh(cubeGeometry, materialMax);}
-        if (this.curr1Mid[i]==minValue)
-        {cube = new THREE.Mesh(cubeGeometry, materialMin);}
+    // wykres bez http 
+    let hights = [1.3, 1.5, 1.34, 1.56, 1.74, 1.1, 1.9, 1.65, 1.9, 1.14, 1.3, 1.65, 1.5, 1.1, 1.9,
+      1.3, 1.7, 1.34, 1.08, 1.74, 1.4, 1.9, 1.65, 1.76, 1.14, 1.3, 1.125, 1.5, 1.1, 2,
+      1.3, 1.1, 1.34, 1.45, 1.74, 1.4, 1.45, 1.1, 1.76, 1.45, 1.1, 1.125, 1.5, 1.4, 1.34,
 
-        cube.position.set(-10 + i / 2, cubeHight/2- 2, 1); // Ustaw pozycję na osi Y jako połowę wysokości sześcianu
-        scene.add(cube);
-        // console.log("y posit ",cubeHight/2- 2)
-      }
+    ]
+    let maxValue1 = Math.max(...hights)
+    let minValue1 = Math.min(...hights)
+    for (let i = 0; i < hights.length; i++) {
+      console.log("pętla robi cuby bez http", hights[i], this.curr1Days[i])
+      let cubeHight = (hights[i]) * 5;
+      // let cubeHight=(this.curr1Mid[i]-0.5*this.curr1Mid[i];
+      this.cubeHights[i] = cubeHight
+      var cubeGeometry = new THREE.BoxGeometry(0.4, cubeHight, 1);
+      let cube = new THREE.Mesh(cubeGeometry, material);
+      if (hights[i] == maxValue1) { cube = new THREE.Mesh(cubeGeometry, materialMax); }
+      if (hights[i] == minValue1) { cube = new THREE.Mesh(cubeGeometry, materialMin); }
 
-      const arr = this.curr1Mid
-      this.average = arr.reduce((a, b) => a + b, 0) / arr.length;
+      cube.position.set(-10 + i / 2, cubeHight / 2 - 2, 1); // Ustaw pozycję na osi Y jako połowę wysokości sześcianu
+      scene.add(cube);
+      // console.log("y posit ",cubeHight/2- 2)
+    }
 
-      console.log("Średnia ",this.average);
-      const geometryAv = new THREE.PlaneGeometry( this.curr1Mid.length*0.5, 0.1 );
-      const materialAv = new THREE.MeshBasicMaterial( 
-        {color: 0xffffff, side: THREE.DoubleSide} );
-          const planeAv = new THREE.Mesh( geometryAv, materialAv );
-          planeAv.position.set(1, ((this.average-3.5)*5)/2, 1.7);
-          planeAv.rotation.x=Math.PI / 2
-          scene.add( planeAv );
 
-    })
 
-  
+
+
+
+
+
+
+
+
+
+    //Wykres z HTTP !!!!!!!!!!!!!!!!
+    // this.ServiceCurrService.getCurrencyOne1("EUR").subscribe(post => {
+    //   console.log("http")
+    //   let curr = post;
+    //   this.curr1Code = curr.code;
+    //   this.curr1Name = curr.currency;
+    //   //console.log(curr.rates[3].effectiveDate);//this.curr1.rates[1].mid
+    //   for (let i = 0; i < curr.rates.length; i++) {
+    //     this.curr1Days[i] = curr.rates[i].effectiveDate;
+    //     this.curr1Mid[i] = curr.rates[i].mid;
+    //   }
+    //   console.log("chf", this.curr1Mid)
+    //   let maxValue=Math.max(...this.curr1Mid)
+    //   let minValue=Math.min(...this.curr1Mid)
+    //   console.log("max value ",maxValue);
+    //   console.log("min value ",minValue);
+    //   for (let i = 0; i < this.curr1Mid.length; i++) {
+    //     // console.log("pętla robi cuby ", this.curr1Mid[i],this.curr1Days[i])
+    //     let cubeHight=(this.curr1Mid[i]-3.5)*5;
+    //     // let cubeHight=(this.curr1Mid[i]-0.5*this.curr1Mid[i];
+    //     this.cubeHights[i]=cubeHight
+    //     var cubeGeometry = new THREE.BoxGeometry(0.4, cubeHight, 1);
+    //     let cube = new THREE.Mesh(cubeGeometry, material);
+    //     if (this.curr1Mid[i]==maxValue)
+    //     {cube = new THREE.Mesh(cubeGeometry, materialMax);}
+    //     if (this.curr1Mid[i]==minValue)
+    //     {cube = new THREE.Mesh(cubeGeometry, materialMin);}
+
+    //     cube.position.set(-10 + i / 2, cubeHight/2- 2, 1); // Ustaw pozycję na osi Y jako połowę wysokości sześcianu
+    //     scene.add(cube);
+    //     // console.log("y posit ",cubeHight/2- 2)
+    //   }
+
+    //   const arr = this.curr1Mid
+    //   this.average = arr.reduce((a, b) => a + b, 0) / arr.length;
+
+    //   console.log("Średnia ",this.average);
+    //   const geometryAv = new THREE.PlaneGeometry( this.curr1Mid.length*0.5, 0.1 );
+    //   const materialAv = new THREE.MeshBasicMaterial( 
+    //     {color: 0xffffff, side: THREE.DoubleSide} );
+    //       const planeAv = new THREE.Mesh( geometryAv, materialAv );
+    //       planeAv.position.set(1, ((this.average-3.5)*5)/2, 1.7);
+    //       planeAv.rotation.x=Math.PI / 2
+    //       scene.add( planeAv );
+
+    // })
+
+
 
 
 
 
 
     const textureP = new THREE.TextureLoader().load("../assets/chf.png")
-    const geometryP = new THREE.PlaneGeometry( 10, 3 );
-const materialP = new THREE.MeshBasicMaterial( 
-  {color: 0xffffff, side: THREE.DoubleSide,map: textureP} );
+    const geometryP = new THREE.PlaneGeometry(10, 3);
+    const materialP = new THREE.MeshBasicMaterial(
+      { color: 0xffffff, side: THREE.DoubleSide, map: textureP });
     // let materialP = new THREE.MeshPhongMaterial({
     //   color: colorYellow,
     //   shininess: 80,
     //   map: textureP
     // })
-    const plane = new THREE.Mesh( geometryP, materialP );
+    const plane = new THREE.Mesh(geometryP, materialP);
     plane.position.set(1, -2, 3);
-    plane.rotation.x=Math.PI / 2
-    scene.add( plane );
+    plane.rotation.x = Math.PI / 2
+    scene.add(plane);
 
 
-    
-   
+
+
 
 
 
