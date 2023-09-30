@@ -14,7 +14,7 @@ import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry';
   styleUrls: ['./text3d.component.css']
 })
 export class Text3dComponent implements OnInit {
-  
+
   code = [];
   currencyTab: any;
   curr1Name: string;
@@ -25,17 +25,17 @@ export class Text3dComponent implements OnInit {
   average = 0
   DisplayLength = 0
   cubeHights = []
-  CurrCodesandNames = [["THB", "bat (Tajlandia)"], ["USD", "dolar amerykański"], ["AUD", "dolar australijski"], ["HKD", "dolar Hongkongu"], 
-  ["CAD", "dolar kanadyjski"], ["NZD", "dolar nowozelandzki"], 
-  ["SGD", "dolar singapurski"], ["EUR", "euro"], ["HUF", "forint (Węgry)"], 
-  ["CHF", "frank szwajcarski"], ["GBP", "funt szterling"], ["UAH", "hrywna (Ukraina)"], 
-  ["JPY", "jen (Japonia)"], ["CZK", "korona czeska"], ["DKK", "korona duńska"], ["ISK", "korona islandzka"], 
-  ["NOK", "korona norweska"], ["SEK", "korona szwedzka"], ["HRK", "kuna (Chorwacja)"], 
-  ["RON", "lej rumuński"], ["BGN", "lew (Bułgaria)"], ["TRY", "lira turecka"], 
-  ["ILS", "nowy izraelski szekel"], ["CLP", "peso chilijskie"], ["PHP", "peso filipińskie"], 
-  ["MXN", "peso meksykańskie"], ["ZAR", "rand (RPA)]"], ["BRL", "real (Brazylia)"], 
-  ["MYR", "ringgit (Malezja)"], ["RUB", "rubel rosyjski"], ["IDR", "rupia indonezyjska"], 
-  ["INR", "rupia indyjska"], ["KRW", "won południowokoreański"], ["CNY", "yuan renminbi (Chiny)]"], 
+  CurrCodesandNames = [["THB", "bat (Tajlandia)"], ["USD", "dolar amerykański"], ["AUD", "dolar australijski"], ["HKD", "dolar Hongkongu"],
+  ["CAD", "dolar kanadyjski"], ["NZD", "dolar nowozelandzki"],
+  ["SGD", "dolar singapurski"], ["EUR", "euro"], ["HUF", "forint (Węgry)"],
+  ["CHF", "frank szwajcarski"], ["GBP", "funt szterling"], ["UAH", "hrywna (Ukraina)"],
+  ["JPY", "jen (Japonia)"], ["CZK", "korona czeska"], ["DKK", "korona duńska"], ["ISK", "korona islandzka"],
+  ["NOK", "korona norweska"], ["SEK", "korona szwedzka"], ["HRK", "kuna (Chorwacja)"],
+  ["RON", "lej rumuński"], ["BGN", "lew (Bułgaria)"], ["TRY", "lira turecka"],
+  ["ILS", "nowy izraelski szekel"], ["CLP", "peso chilijskie"], ["PHP", "peso filipińskie"],
+  ["MXN", "peso meksykańskie"], ["ZAR", "rand (RPA)]"], ["BRL", "real (Brazylia)"],
+  ["MYR", "ringgit (Malezja)"], ["RUB", "rubel rosyjski"], ["IDR", "rupia indonezyjska"],
+  ["INR", "rupia indyjska"], ["KRW", "won południowokoreański"], ["CNY", "yuan renminbi (Chiny)]"],
   ["XDR", "SDR (MFW)"]];
 
 
@@ -46,12 +46,12 @@ export class Text3dComponent implements OnInit {
   constructor(private ServiceCurrService: ServiceCurrService) { }
 
 
- 
+
 
 
 
   ngOnInit(): void {
-this.klik2("CHF")
+    this.klik2("CHF")
 
     // this.ServiceCurrService.getCurrencyTab().subscribe(post => {
     //   this.currencyTab = post;
@@ -493,7 +493,7 @@ this.klik2("CHF")
   }
 
 
-  klik(code){
+  klik(code) {
     let display = (<HTMLInputElement>document.getElementById("displayText"))
     display.firstChild.remove()
     display.removeChild
@@ -527,10 +527,10 @@ this.klik2("CHF")
     let display = (<HTMLInputElement>document.getElementById("displayText"))
     // display.firstChild.remove()
     // display.removeChild
-   display.appendChild(renderer.domElement);
-    let rnd = Math.random()
+    display.appendChild(renderer.domElement);
+    // let rnd = Math.random()
 
-    console.log("raddom ", rnd)
+    // console.log("raddom ", rnd)
 
     const texture = new THREE.TextureLoader().load("../assets/Space.jpg")
 
@@ -566,7 +566,7 @@ this.klik2("CHF")
 
     // });
 
-    var textMesh: any
+    //var textMesh: any
     const loaderText = new FontLoader();
     loaderText.load('../assets/Inter_Regular.json', function (font) {
 
@@ -575,7 +575,7 @@ this.klik2("CHF")
         size: 2,
         height: 0.3,
       });
-      textMesh = new THREE.Mesh(tgeometry, [
+      let textMesh = new THREE.Mesh(tgeometry, [
         new THREE.MeshBasicMaterial({ color: 0xffff00 }),
         new THREE.MeshNormalMaterial()
       ])
@@ -625,19 +625,19 @@ this.klik2("CHF")
     //     scene.add(cube);
     //     // console.log("y posit ",cubeHight/2- 2)
     // }
-    
+
     // )}
 
 
-      // //   console.log("http")
-      // //   let curr = post;
-      // //   this.curr1Code = curr.code;
-      // //   this.curr1Name = curr.currency;
-      // //   //console.log(curr.rates[3].effectiveDate);//this.curr1.rates[1].mid
-      // //   for (let i = 0; i < curr.rates.length; i++) {
-      // //     this.curr1Days[i] = curr.rates[i].effectiveDate;
-      // //     this.curr1Mid[i] = curr.rates[i].mid;
-      // //   }
+    // //   console.log("http")
+    // //   let curr = post;
+    // //   this.curr1Code = curr.code;
+    // //   this.curr1Name = curr.currency;
+    // //   //console.log(curr.rates[3].effectiveDate);//this.curr1.rates[1].mid
+    // //   for (let i = 0; i < curr.rates.length; i++) {
+    // //     this.curr1Days[i] = curr.rates[i].effectiveDate;
+    // //     this.curr1Mid[i] = curr.rates[i].mid;
+    // //   }
 
 
 
@@ -651,21 +651,35 @@ this.klik2("CHF")
 
     //this.ServiceCurrService.getCurrencyOne2("USD") 
     // let hights = arrTest
-    
-
- 
-    let hights = this.ServiceCurrService.getCurrencyOne2(code) 
 
 
+
+    let hights = this.ServiceCurrService.getCurrencyOne2(code)
+
+    // const sum = hights.reduce((a, b) => a + b, 0);
+    // const avg = (sum / hights.length) ;
+    // let avg1=0
     let maxValue1 = Math.max(...hights)
     let minValue1 = Math.min(...hights)
     for (let i = 0; i < hights.length; i++) {
-      // console.log("pętla robi cuby bez http", hights[i], this.curr1Days[i])
+      // avg1=+hights[i]
+      //console.log("pętla robi cuby bez http", hights[i], this.curr1Days[i])
       let cubeHight = (hights[i]);
       // let cubeHight=(this.curr1Mid[i]-0.5*this.curr1Mid[i];
       this.cubeHights[i] = cubeHight
       var cubeGeometry = new THREE.BoxGeometry(0.4, cubeHight, 1);
-      let cube = new THREE.Mesh(cubeGeometry, material);
+      // let color7=0xac2394+i*10
+      //let colorparse=parseInt(color7, 16);
+      let material7 = new THREE.MeshPhongMaterial({
+        color: 0x999999,
+        shininess: 80,
+        map: texture
+      })
+
+
+
+
+      let cube = new THREE.Mesh(cubeGeometry, material7);
       let text = hights[i].toString()
       if (hights[i] == maxValue1) {
         cube = new THREE.Mesh(cubeGeometry, materialMax);
@@ -678,72 +692,82 @@ this.klik2("CHF")
 
       cube.position.set(-10 + i / 2, cubeHight / 2 - 2, 1); // Ustaw pozycję na osi Y jako połowę wysokości sześcianu
       scene.add(cube);
+      if (i % 2 == 0 || hights[i] == maxValue1 || hights[i] == minValue1) {
+        loaderText.load('../assets/Inter_Regular.json', function (font) {
+          console.log("petla nr ", i)
 
-      loaderText.load('../assets/Inter_Regular.json', function (font) {
-        const tgeometry = new TextGeometry(text, {
-          font: font,
-          size: 0.16,
-          height: 0.16,
+          const tgeometry = new TextGeometry(text, {
+            font: font,
+            size: 0.12,
+            height: 0.12,
+          });
+          let textMesh1 = new THREE.Mesh(tgeometry, [
+            new THREE.MeshBasicMaterial({ color: 0xffff00 }),
+            new THREE.MeshNormalMaterial()
+          ])
+          // textMesh.position.set(-3, 1, 0)
+          if (hights[i] == maxValue1 || hights[i] == minValue1) {
+            textMesh1.position.set(-10 + i / 2 - 0.3, cubeHight - 1.55, 1.25);
+          } else { textMesh1.position.set(-10 + i / 2 - 0.28, cubeHight - 2, 1.25); }
+          //else { textMesh1.position.set(-10 + i / 2 - 0.28, cubeHight - 2, 3); }
+        
+          scene.add(textMesh1)
         });
-        textMesh = new THREE.Mesh(tgeometry, [
-          new THREE.MeshBasicMaterial({ color: 0xffff00 }),
-          new THREE.MeshNormalMaterial()
-        ])
-        // textMesh.position.set(-3, 1, 0)
-        if (hights[i] == maxValue1 || hights[i] == minValue1) {
-          textMesh.position.set(-10 + i / 2 - 0.3, cubeHight - 1.55, 1.25);
-        } else if(i%2==0) { textMesh.position.set(-10 + i / 2 - 0.28, cubeHight - 2, 1.25); }
-        //else { textMesh.position.set(-10 + i / 2 - 0.28, cubeHight - 2, 1.25); }
-        scene.add(textMesh)
-      });
+      }
 
     }
-  
 
 
 
+    let sum1 = 0;
+
+    // calculate sum using forEach() method
+    hights.forEach(num => {
+      sum1 += Number(num);
+    })
+    console.log("sumsa ", sum1 / hights.length)
+    const avg = sum1 / hights.length
 
 
-  
     const arr = hights//srednia plane
-    this.average = arr.reduce((a, b) => a + b, 0) / arr.length;
-    let avgText = this.average
-    console.log("Średnia ", this.average);
+    // let avg = arr.reduce((a, b) => a + b, 0) / arr.length;
+    //     const sum = hights.reduce((a, b) => a + b, 0);
+    // const avg = (sum / hights.length) ;
+    let avgText = avg
+    console.log("Średnia ", avg.toFixed(4), hights);
     const geometryAv = new THREE.PlaneGeometry(hights.length * 0.5, 0.1);
     const materialAv = new THREE.MeshBasicMaterial(
       { color: 0xffffff, side: THREE.DoubleSide });
     const planeAv = new THREE.Mesh(geometryAv, materialAv);
-    planeAv.position.set(1, ((this.average) * 5), 1.7);
+    planeAv.position.set(1, avg - 2, 1.7);
 
     planeAv.rotation.x = Math.PI / 2
     scene.add(planeAv);
-    
+
     let textAvg;//sredn9ia tekst
     loaderText.load('../assets/Inter_Regular.json', function (font) {
-      const tgeometry = new TextGeometry("AVG", {
+      const tgeometry = new TextGeometry("AVG " + avg.toFixed(4), {
         font: font,
         size: 0.2,
         height: 0.2,
       });
       textAvg = new THREE.Mesh(tgeometry, [
-        new THREE.MeshBasicMaterial({ color: 0xffff00 }),
+        new THREE.MeshBasicMaterial({ color: 0xffffff }),
         new THREE.MeshNormalMaterial()
       ])
       // textMesh.position.set(-3, 1, 0)
-
-
-      textAvg.position.set(1, this.average * 5, 3);
+      textAvg.position.set(-11, avg - 2, 1.7);
       console.log("avarage1 ", avgText)
-
+      scene.add(textAvg);
     });
-  //});//koniec htp
-  const flag=code+".jpg"
- 
-  
-    const textureP = new THREE.TextureLoader().load("../assets/flags/"+flag)
+    //});//koniec htp
+    const flag = code + ".jpg"
+
+
+    const textureP = new THREE.TextureLoader().load("../assets/flags/" + flag)
     const geometryP = new THREE.PlaneGeometry(10, 3);
     const materialP = new THREE.MeshBasicMaterial(
-      { color: 0xffffff,  map: textureP });
+      { color: 0xffffff, map: textureP });
     // let materialP = new THREE.MeshPhongMaterial({
     //   color: colorYellow,
     //   shininess: 80,
@@ -753,13 +777,14 @@ this.klik2("CHF")
     plane.position.set(1, -2, 3);
     plane.rotation.x = Math.PI / -2
     scene.add(plane);
-    
+
 
     var mixer: any
     const loader = new GLTFLoader();
 
 
     camera.position.z = 10;
+    camera.position.y = avg - 2;
     let hemilight = new THREE.HemisphereLight(0xffffff, 0x000000, 2)
     scene.add(hemilight)
     // let ambient = new THREE.AmbientLight(0x555500, 9)
