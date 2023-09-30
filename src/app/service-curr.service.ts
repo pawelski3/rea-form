@@ -34,6 +34,28 @@ export class ServiceCurrService {
     return this.http.get('http://api.nbp.pl/api/exchangerates/rates/a/' + code + '/' + this.timestring(this.ear30) + '/' + this.timestring(this.time) + '/');
   }
 
+  getCurrencyOne2(code: string) {
+    let arrTest = []
+    for (let i = 0; i <= 45; i++) {
+      let value = 0
+      if (code == "CHF" || code == "USD" || code == "EUR") {
+        value = 4
+      }
+      if (code == "GBP" || code == "INR" || code == "XDR" ) {
+        value = 5
+      }
+      if (code == "SGD" || code == "ISK" || code == "EUR") {
+        value = 5
+      }
+      let rnd = Math.random()
+      let value2 = value + rnd
+      arrTest[i]=value2.toFixed(4)
+      // console.log("service ", i, code, arrTest[i])
+    }
+    return arrTest
+  }
+
+
 
   getGold(): Observable<any> {
     return this.http.get('http://api.nbp.pl/api/cenyzlota/' + this.timestring(this.ear30) + '/' + this.timestring(this.time) + '/');

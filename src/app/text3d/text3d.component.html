@@ -1,3 +1,20 @@
 <p>text3d works!</p>
-<button type="button" class="btn btn-info" (click)="klik()">Klik</button>
+<!-- <button type="button" class="btn btn-info" (click)="klik('USD')">Klik</button> -->
+
+  <!-- (change)="select1(s1.value)" #s1 > -->
+  Wybierz walutę<select class="form-control" style="width:200px;" id="s1" (change)='klik(s1.value)' #s1 >
+    <ng-container *ngFor="let p of CurrCodesandNames; let i=index;">
+        <ng-container *ngIf='p[0] === "CHF"; else else1'>
+            <option value={{p[0]}} selected>{{p[1]}} ({{p[0]}})</option>
+        </ng-container>
+  
+        <ng-template #else1>
+    <option value={{p[0]}}>{{p[1]}} ({{p[0]}})</option>
+        </ng-template>
+  </ng-container>
+  </select>
+
+  
+
+
 <div id="displayText"></div>

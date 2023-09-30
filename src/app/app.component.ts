@@ -24,7 +24,7 @@ export class AppComponent implements DoCheck {
   }
 
   ngDoCheck() {
-    console.log("CurrentRoute ", this.currentRoute.url)
+    // console.log("CurrentRoute ", this.currentRoute.url)
 
     switch (this.currentRoute.url) {
       case "/one":
