@@ -5,6 +5,8 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 // import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
 import { ServiceCurrService } from '../service-curr.service';
 import { Observable } from 'rxjs';
+import { FontLoader } from 'three/examples/jsm/loaders/FontLoader';
+import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry';
 
 @Component({
   selector: 'app-text3d',
@@ -22,6 +24,12 @@ export class Text3dComponent implements OnInit {
   average = 0
   DisplayLength = 0
   cubeHights = []
+
+
+
+
+
+
 
   constructor(private ServiceCurrService: ServiceCurrService) { }
 
@@ -108,6 +116,29 @@ export class Text3dComponent implements OnInit {
       // }
     });
 
+    var textMesh: any
+    const loaderText = new FontLoader();
+    loaderText.load('../assets/Inter_Regular.json', function (font) {
+
+      const tgeometry = new TextGeometry('CHF', {
+        font: font,
+        size: 2,
+        height: 0.3,
+      });
+      textMesh = new THREE.Mesh(tgeometry, [
+        new THREE.MeshBasicMaterial({ color: 0xffff00 }),
+        new THREE.MeshNormalMaterial()
+      ])
+      // textMesh.position.set(-3, 1, 3)
+      textMesh.position.set(-2, -2, 2);
+      scene.add(textMesh)
+    });
+
+
+
+
+
+
 
     // wykres bez http 
     let hights = [1.3, 1.5, 1.34, 1.56, 1.74, 1.1, 1.9, 1.65, 1.9, 1.14, 1.3, 1.65, 1.5, 1.1, 1.9,
@@ -118,20 +149,77 @@ export class Text3dComponent implements OnInit {
     let maxValue1 = Math.max(...hights)
     let minValue1 = Math.min(...hights)
     for (let i = 0; i < hights.length; i++) {
-      console.log("pętla robi cuby bez http", hights[i], this.curr1Days[i])
+      // console.log("pętla robi cuby bez http", hights[i], this.curr1Days[i])
       let cubeHight = (hights[i]) * 5;
       // let cubeHight=(this.curr1Mid[i]-0.5*this.curr1Mid[i];
       this.cubeHights[i] = cubeHight
       var cubeGeometry = new THREE.BoxGeometry(0.4, cubeHight, 1);
       let cube = new THREE.Mesh(cubeGeometry, material);
-      if (hights[i] == maxValue1) { cube = new THREE.Mesh(cubeGeometry, materialMax); }
-      if (hights[i] == minValue1) { cube = new THREE.Mesh(cubeGeometry, materialMin); }
+      let text = hights[i].toString()
+      if (hights[i] == maxValue1) {
+        cube = new THREE.Mesh(cubeGeometry, materialMax);
+        text = "MAX: \n" + hights[i].toString()
+      }
+      if (hights[i] == minValue1) {
+        cube = new THREE.Mesh(cubeGeometry, materialMin);
+        text = "MIN: \n" + hights[i].toString()
+      }
 
       cube.position.set(-10 + i / 2, cubeHight / 2 - 2, 1); // Ustaw pozycję na osi Y jako połowę wysokości sześcianu
       scene.add(cube);
-      // console.log("y posit ",cubeHight/2- 2)
+
+      loaderText.load('../assets/Inter_Regular.json', function (font) {
+        const tgeometry = new TextGeometry(text, {
+          font: font,
+          size: 0.18,
+          height: 0.2,
+        });
+        textMesh = new THREE.Mesh(tgeometry, [
+          new THREE.MeshBasicMaterial({ color: 0xffff00 }),
+          new THREE.MeshNormalMaterial()
+        ])
+        // textMesh.position.set(-3, 1, 0)
+        if (hights[i] == maxValue1 || hights[i] == minValue1) {
+          textMesh.position.set(-10 + i / 2 - 0.3, cubeHight - 1.55, 1.25);
+        } else { textMesh.position.set(-10 + i / 2 - 0.3, cubeHight - 2, 1.25); }
+
+        scene.add(textMesh)
+      });
+
     }
 
+    const arr = hights//srednia plane
+    this.average = arr.reduce((a, b) => a + b, 0) / arr.length;
+    let avgText = this.average
+    console.log("Średnia ", this.average);
+    const geometryAv = new THREE.PlaneGeometry(hights.length * 0.5, 0.1);
+    const materialAv = new THREE.MeshBasicMaterial(
+      { color: 0xffffff, side: THREE.DoubleSide });
+    const planeAv = new THREE.Mesh(geometryAv, materialAv);
+    planeAv.position.set(1, ((this.average) * 5), 1.7);
+
+    planeAv.rotation.x = Math.PI / 2
+    scene.add(planeAv);
+
+    let textAvg;//sredn9ia tekst
+    loaderText.load('../assets/Inter_Regular.json', function (font) {
+      const tgeometry = new TextGeometry("AVG", {
+        font: font,
+        size: 0.2,
+        height: 0.2,
+      });
+      textAvg = new THREE.Mesh(tgeometry, [
+        new THREE.MeshBasicMaterial({ color: 0xffff00 }),
+        new THREE.MeshNormalMaterial()
+      ])
+      // textMesh.position.set(-3, 1, 0)
+
+
+      textAvg.position.set(1, this.average * 5, 3);
+      console.log("avarage1 ", avgText)
+
+      // scene.add(textAvg)
+    });
 
 
 
@@ -386,5 +474,237 @@ export class Text3dComponent implements OnInit {
     animate();
 
   }
+
+
+
+  klik() {
+    console.log("klik")
+    var scene = new THREE.Scene();
+    var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const colorYellow = new THREE.Color('hsl(40,100%,60%)')
+    const colorBlue = new THREE.Color('hsl(242, 42%, 51%)')
+    var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    // document.body.appendChild(renderer.domElement);
+
+    window.addEventListener('resize', onWindowResize, false);
+
+
+    function onWindowResize() {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+
+
+
+
+    let display = (<HTMLInputElement>document.getElementById("displayText"))
+    display.firstChild.remove()
+    display.removeChild
+    display.appendChild(renderer.domElement);
+    let rnd = Math.random()
+
+    console.log("raddom ", rnd)
+
+    const texture = new THREE.TextureLoader().load("../assets/Space.jpg")
+
+
+    let material = new THREE.MeshPhongMaterial({
+      color: colorYellow,
+      shininess: 80,
+      map: texture
+    })
+    let materialMax = new THREE.MeshPhongMaterial({
+      color: colorYellow,
+      shininess: 80,
+      //map: texture
+    })
+    let materialMin = new THREE.MeshPhongMaterial({
+      color: colorBlue,
+      shininess: 80,
+      //map: texture
+    })
+
+
+    this.ServiceCurrService.getCurrencyTab().subscribe(post => {
+      this.currencyTab = post;
+
+      let c = [];
+      for (let i = 0; i < this.currencyTab[0].rates.length; i++) {
+        c[i] = this.currencyTab[0].rates[i]['mid'];//mid
+
+
+      }
+      // console.log('curr' + c);
+      this.val1 = c;
+
+    });
+
+    var textMesh: any
+    const loaderText = new FontLoader();
+    loaderText.load('../assets/Inter_Regular.json', function (font) {
+
+      const tgeometry = new TextGeometry('CHF', {
+        font: font,
+        size: 2,
+        height: 0.3,
+      });
+      textMesh = new THREE.Mesh(tgeometry, [
+        new THREE.MeshBasicMaterial({ color: 0xffff00 }),
+        new THREE.MeshNormalMaterial()
+      ])
+      // textMesh.position.set(-3, 1, 3)
+      textMesh.position.set(-2, -2, 2);
+      scene.add(textMesh)
+    });
+
+
+    // wykres bez http 
+    // let hights = [1.3, 1.5, 1.34, 1.56, 1.74, 1.1, 1.9, 1.65, 1.9, 1.14, 1.3, 1.65, 1.5, 1.1, 1.9,
+    //   1.3, 1.7, 1.34, 1.08, 1.74, 1.4, 1.9, 1.65, 1.76, 1.14, 1.3, 1.125, 1.5, 1.1, 2,
+    //   1.3, 1.1, 1.34, 1.45, 1.74, 1.4, 1.45, 1.1, 1.76, 1.45, 1.1, 1.125, 1.5, 1.4, 1.34,
+
+    // ]
+    let arrTest = []
+    for (let i = 0; i <= 45; i++) {
+      arrTest[i] =Math.random().toFixed(2)
+      console.log("aaTest ",i," ",arrTest[i])
+    }
+    let hights = arrTest
+
+
+
+    let maxValue1 = Math.max(...hights)
+    let minValue1 = Math.min(...hights)
+    for (let i = 0; i < hights.length; i++) {
+      // console.log("pętla robi cuby bez http", hights[i], this.curr1Days[i])
+      let cubeHight = (hights[i]) * 5;
+      // let cubeHight=(this.curr1Mid[i]-0.5*this.curr1Mid[i];
+      this.cubeHights[i] = cubeHight
+      var cubeGeometry = new THREE.BoxGeometry(0.4, cubeHight, 1);
+      let cube = new THREE.Mesh(cubeGeometry, material);
+      let text = hights[i].toString()
+      if (hights[i] == maxValue1) {
+        cube = new THREE.Mesh(cubeGeometry, materialMax);
+        text = "MAX: \n" + hights[i].toString()
+      }
+      if (hights[i] == minValue1) {
+        cube = new THREE.Mesh(cubeGeometry, materialMin);
+        text = "MIN: \n" + hights[i].toString()
+      }
+
+      cube.position.set(-10 + i / 2, cubeHight / 2 - 2, 1); // Ustaw pozycję na osi Y jako połowę wysokości sześcianu
+      scene.add(cube);
+
+      loaderText.load('../assets/Inter_Regular.json', function (font) {
+        const tgeometry = new TextGeometry(text, {
+          font: font,
+          size: 0.2,
+          height: 0.2,
+        });
+        textMesh = new THREE.Mesh(tgeometry, [
+          new THREE.MeshBasicMaterial({ color: 0xffff00 }),
+          new THREE.MeshNormalMaterial()
+        ])
+        // textMesh.position.set(-3, 1, 0)
+        if (hights[i] == maxValue1 || hights[i] == minValue1) {
+          textMesh.position.set(-10 + i / 2 - 0.3, cubeHight - 1.55, 1.25);
+        } else { textMesh.position.set(-10 + i / 2 - 0.2, cubeHight - 2, 1.25); }
+
+        scene.add(textMesh)
+      });
+
+    }
+
+    const arr = hights//srednia plane
+    this.average = arr.reduce((a, b) => a + b, 0) / arr.length;
+    let avgText = this.average
+    console.log("Średnia ", this.average);
+    const geometryAv = new THREE.PlaneGeometry(hights.length * 0.5, 0.1);
+    const materialAv = new THREE.MeshBasicMaterial(
+      { color: 0xffffff, side: THREE.DoubleSide });
+    const planeAv = new THREE.Mesh(geometryAv, materialAv);
+    planeAv.position.set(1, ((this.average) * 5), 1.7);
+
+    planeAv.rotation.x = Math.PI / 2
+    scene.add(planeAv);
+
+    let textAvg;//sredn9ia tekst
+    loaderText.load('../assets/Inter_Regular.json', function (font) {
+      const tgeometry = new TextGeometry("AVG", {
+        font: font,
+        size: 0.2,
+        height: 0.2,
+      });
+      textAvg = new THREE.Mesh(tgeometry, [
+        new THREE.MeshBasicMaterial({ color: 0xffff00 }),
+        new THREE.MeshNormalMaterial()
+      ])
+      // textMesh.position.set(-3, 1, 0)
+
+
+      textAvg.position.set(1, this.average * 5, 3);
+      console.log("avarage1 ", avgText)
+
+    });
+
+    const textureP = new THREE.TextureLoader().load("../assets/chf.png")
+    const geometryP = new THREE.PlaneGeometry(10, 3);
+    const materialP = new THREE.MeshBasicMaterial(
+      { color: 0xffffff, side: THREE.DoubleSide, map: textureP });
+    // let materialP = new THREE.MeshPhongMaterial({
+    //   color: colorYellow,
+    //   shininess: 80,
+    //   map: textureP
+    // })
+    const plane = new THREE.Mesh(geometryP, materialP);
+    plane.position.set(1, -2, 3);
+    plane.rotation.x = Math.PI / 2
+    scene.add(plane);
+
+
+    var mixer: any
+    const loader = new GLTFLoader();
+
+
+    camera.position.z = 10;
+    let hemilight = new THREE.HemisphereLight(0xffffff, 0x000000, 2)
+    scene.add(hemilight)
+    // let ambient = new THREE.AmbientLight(0x555500, 9)
+    // scene.add(ambient)
+    const light = new THREE.PointLight(colorYellow, 2)
+
+    light.position.z = 20
+    light.position.y = -20
+    light.position.x = -40
+
+    scene.add(light)
+
+    let controls = new OrbitControls(camera, renderer.domElement)
+    controls.update()
+
+
+    const clock = new THREE.Clock()
+    var animate = function () {
+      requestAnimationFrame(animate);
+      // console.log("animate")
+      // impModel.rotation.x += 0.01;
+      // cube.rotation.x += 0.01;
+      // cube.rotation.y += 0.01;
+      // // stars.rotation.y += 0.001
+      // cube.position.x = -2.11;
+      const delta = clock.getDelta()
+      //console.log(boolean(mixer))
+      if (mixer) { mixer.update(delta) }
+      renderer.render(scene, camera);
+    };
+
+    animate();
+  }
+
+
+
+
 
 }
